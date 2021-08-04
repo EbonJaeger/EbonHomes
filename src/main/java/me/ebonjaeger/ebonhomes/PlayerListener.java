@@ -67,6 +67,20 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         Location location = player.getBedSpawnLocation();
 
+        // This should never happen if the player successfully slept
+        // in the bed.
+        if (location == null) {
+            return;
+        }
+
+        // Check for an existing bed home location
+        Home existing = this.homesManager.getHome(player.getUniqueId(), "bed");
+        if (existing != null) {
+            // An existing home exists. Update it instead of making a new one
+            existing.setLocation(location);
+            return;
+        }
+
         Home home = new Home("bed", location);
         this.homesManager.addHomeForPlayer(player.getUniqueId(), home);
     }

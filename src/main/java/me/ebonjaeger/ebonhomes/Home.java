@@ -26,9 +26,9 @@ import java.util.Map;
 public class Home implements ConfigurationSerializable {
 
     private final String name;
-    private final Location location;
+    private Location location;
 
-    public Home(String name, Location location) {
+    public Home(@NotNull String name, @NotNull Location location) {
         this.name = name;
         this.location = location;
     }
@@ -39,12 +39,16 @@ public class Home implements ConfigurationSerializable {
         this.location = Location.deserialize((Map<String, Object>) map.get("location"));
     }
 
-    public String getName() {
+    public @NotNull String getName() {
         return name;
     }
 
-    public Location getLocation() {
+    public @NotNull Location getLocation() {
         return location;
+    }
+
+    public void setLocation(@NotNull Location location) {
+        this.location = location;
     }
 
     @Override
