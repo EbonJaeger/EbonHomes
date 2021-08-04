@@ -1,0 +1,29 @@
+name: EbonHomes
+version: ${version}
+main: me.ebonjaeger.ebonhomes.EbonHomes
+api-version: 1.17
+authors: [ EbonJaeger ]
+description: Simple homes plugin
+website: https://github.com/EbonJaeger/EbonHomes
+
+commands:
+  delhome:
+    description: Remove a home with the given name
+    permission: ebonhomes.command.delhome
+  home:
+    description: Go to a home with the given name
+    permission: ebonhomes.command.home
+  sethome:
+    description: Set a new home at the current location
+    permission: ebonhomes.command.sethome
+
+permissions:
+  ebonhomes.command.delhome:
+    description: Allows using the delhome command
+    default: true
+  ebonhomes.command.home:
+    description: Allows using the home command
+    default: true
+  ebonhomes.command.sethome:
+    description: Allows using the sethome command
+    default: true
