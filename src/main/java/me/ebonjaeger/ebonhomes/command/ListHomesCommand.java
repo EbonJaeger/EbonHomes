@@ -27,11 +27,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class DelHomeCommand implements CommandExecutor {
+public class ListHomesCommand implements CommandExecutor {
 
     private final HomesManager homesManager;
 
-    public DelHomeCommand(HomesManager homesManager) {
+    public ListHomesCommand(HomesManager homesManager) {
         this.homesManager = homesManager;
     }
 
@@ -43,28 +43,17 @@ public class DelHomeCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        if (args.length != 1) {
-            player.sendMessage(ChatColor.RED + "Invalid args! Usage: " + ChatColor.WHITE + "/delhome name");
-            return true;
-        }
-
-        String name = args[0];
-
-        List<Home> homes = homesManager.getHomesForPlayer(player.getUniqueId());
+        List<Home> homes = this.homesManager.getHomesForPlayer(player.getUniqueId());
         if (homes == null || homes.isEmpty()) {
             player.sendMessage(ChatColor.GRAY + "You don't have any homes!");
             return true;
         }
 
-        Home found = homesManager.getHome(player.getUniqueId(), name);
-        if (found == null) {
-            player.sendMessage(ChatColor.RED + "Couldn't find a home named '" + ChatColor.WHITE + name + ChatColor.RED + "'");
-            return true;
+        String names = "";
+        for (Home home : homes) {
+            names = String.join(" ", names, home.getName());
         }
-
-        homes.remove(found);
-        this.homesManager.setPlayerHomes(player.getUniqueId(), homes);
-        player.sendMessage(ChatColor.GREEN + "Home deleted successfully!");
+        player.sendMessage(ChatColor.GRAY + "Your homes:" + ChatColor.WHITE + names);
 
         return true;
     }

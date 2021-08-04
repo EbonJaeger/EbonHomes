@@ -13,6 +13,9 @@ commands:
   home:
     description: Go to a home with the given name
     permission: ebonhomes.command.home
+  listhomes:
+    description: List a player's homes
+    permission: ebonhomes.command.listhomes
   sethome:
     description: Set a new home at the current location
     permission: ebonhomes.command.sethome
@@ -23,6 +26,9 @@ permissions:
     default: true
   ebonhomes.command.home:
     description: Allows using the home command
+    default: true
+  ebonhomes.command.listhomes:
+    description: Allows using the listhomes command
     default: true
   ebonhomes.command.sethome:
     description: Allows using the sethome command

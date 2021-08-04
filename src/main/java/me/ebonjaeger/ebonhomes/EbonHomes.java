@@ -18,6 +18,7 @@ package me.ebonjaeger.ebonhomes;
 
 import me.ebonjaeger.ebonhomes.command.DelHomeCommand;
 import me.ebonjaeger.ebonhomes.command.HomeCommand;
+import me.ebonjaeger.ebonhomes.command.ListHomesCommand;
 import me.ebonjaeger.ebonhomes.command.SetHomeCommand;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -53,6 +54,7 @@ public final class EbonHomes extends JavaPlugin {
 
         getCommand("delhome").setExecutor(new DelHomeCommand(homesManager));
         getCommand("home").setExecutor(new HomeCommand(homesManager));
+        getCommand("listhomes").setExecutor(new ListHomesCommand(homesManager));
         getCommand("sethome").setExecutor(new SetHomeCommand(homesManager));
         getServer().getPluginManager().registerEvents(new PlayerListener(homesManager), this);
     }
