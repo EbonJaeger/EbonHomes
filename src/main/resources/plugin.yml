@@ -14,6 +14,8 @@ commands:
     description: Go to a home with the given name
     permission: ebonhomes.command.home
   listhomes:
+    aliases:
+      - homes
     description: List a player's homes
     permission: ebonhomes.command.listhomes
   sethome:
