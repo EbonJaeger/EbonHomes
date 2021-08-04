@@ -16,6 +16,10 @@
 
 package me.ebonjaeger.ebonhomes;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.jetbrains.annotations.NotNull;
@@ -57,5 +61,20 @@ public class Home implements ConfigurationSerializable {
         ret.put("name", this.name);
         ret.put("location", location.serialize());
         return ret;
+    }
+
+    /**
+     * Creates a new {@link TextComponent} with a hover event to
+     * display information about this home.
+     *
+     * @return A TextComponent consisting of the name and hover event
+     */
+    public @NotNull TextComponent toTextComponent() {
+        return Component.text(this.name, NamedTextColor.WHITE)
+                .hoverEvent(HoverEvent.showText(Component.text(
+                        "World: " + this.location.getWorld().getName() +
+                        "\nx: " + this.location.getX() +
+                        "\ny: " + this.location.getY() +
+                        "\nz: " + this.location.getZ())));
     }
 }

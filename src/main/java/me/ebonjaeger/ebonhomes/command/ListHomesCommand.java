@@ -18,6 +18,9 @@ package me.ebonjaeger.ebonhomes.command;
 
 import me.ebonjaeger.ebonhomes.Home;
 import me.ebonjaeger.ebonhomes.HomesManager;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -49,11 +52,14 @@ public class ListHomesCommand implements CommandExecutor {
             return true;
         }
 
-        String names = "";
+        TextComponent.Builder component = Component.text()
+                .content("Your homes: ")
+                .color(NamedTextColor.GRAY);
         for (Home home : homes) {
-            names = String.join(" ", names, home.getName());
+            component.append(home.toTextComponent());
         }
-        player.sendMessage(ChatColor.GRAY + "Your homes:" + ChatColor.WHITE + names);
+
+        player.sendMessage(component.build());
 
         return true;
     }
