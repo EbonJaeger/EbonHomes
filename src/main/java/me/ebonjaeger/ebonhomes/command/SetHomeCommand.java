@@ -16,6 +16,7 @@
 
 package me.ebonjaeger.ebonhomes.command;
 
+import me.ebonjaeger.ebonhomes.EbonHomes;
 import me.ebonjaeger.ebonhomes.Home;
 import me.ebonjaeger.ebonhomes.HomesManager;
 import org.bukkit.ChatColor;
@@ -27,22 +28,31 @@ import org.jetbrains.annotations.NotNull;
 
 public class SetHomeCommand implements CommandExecutor {
 
+    private final EbonHomes plugin;
     private final HomesManager homesManager;
 
-    public SetHomeCommand(HomesManager homesManager) {
+    public SetHomeCommand(EbonHomes plugin, HomesManager homesManager) {
+        this.plugin = plugin;
         this.homesManager = homesManager;
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage("This command can only be used by a player");
             return true;
         }
 
-        Player player = (Player) sender;
         if (args.length != 1) {
             player.sendMessage(ChatColor.RED + "Invalid args! Usage: " + ChatColor.WHITE + "/sethome name");
+            return true;
+        }
+
+        // Check if the player is at their home limit
+        int limit = this.plugin.getHomeLimit(player);
+        int count = this.homesManager.getHomeCount(player.getUniqueId());
+        if (limit != -1 && count >= limit) {
+            player.sendMessage(ChatColor.RED + "You are already at the home limit!");
             return true;
         }
 
@@ -57,7 +67,7 @@ public class SetHomeCommand implements CommandExecutor {
 
         Home home = new Home(name, player.getLocation());
         this.homesManager.addHomeForPlayer(player.getUniqueId(), home);
-        player.sendMessage(ChatColor.GREEN + "Home set successfully!");
+        player.sendMessage(ChatColor.GREEN + "Home set successfully! You have " + ChatColor.WHITE + ((limit == -1) ? "unlimited" : (limit - count - 1)) + ChatColor.GREEN + " homes remaining.");
 
         return true;
     }

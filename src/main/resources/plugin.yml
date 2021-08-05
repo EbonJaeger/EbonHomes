@@ -7,6 +7,8 @@ description: Simple homes plugin
 website: https://github.com/EbonJaeger/EbonHomes
 
 commands:
+  ebonhomes:
+    description: Base command for plugin management commands
   delhome:
     description: Remove a home with the given name
     permission: ebonhomes.command.delhome
@@ -32,6 +34,9 @@ permissions:
   ebonhomes.command.listhomes:
     description: Allows using the listhomes command
     default: true
+  ebonhomes.command.reload:
+    description: Allow reloading the config via command
+    default: op
   ebonhomes.command.sethome:
     description: Allows using the sethome command
     default: true

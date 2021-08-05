@@ -40,12 +40,11 @@ public class ListHomesCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage("This command can only be used by a player");
             return true;
         }
 
-        Player player = (Player) sender;
         List<Home> homes = this.homesManager.getHomesForPlayer(player.getUniqueId());
         if (homes == null || homes.isEmpty()) {
             player.sendMessage(ChatColor.GRAY + "You don't have any homes!");
@@ -56,7 +55,7 @@ public class ListHomesCommand implements CommandExecutor {
                 .content("Your homes: ")
                 .color(NamedTextColor.GRAY);
         for (Home home : homes) {
-            component.append(home.toTextComponent());
+            component.append(home.toTextComponent()).append(Component.text(" "));
         }
 
         player.sendMessage(component.build());

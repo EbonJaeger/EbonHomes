@@ -1,7 +1,6 @@
-import org.apache.tools.ant.filters.ReplaceTokens
-
 plugins {
     id 'java'
+    id "com.github.johnrengelman.shadow" version "6.1.0"
 }
 
 group = 'me.ebonjaeger'
@@ -24,6 +23,7 @@ repositories {
 
 dependencies {
     compileOnly 'io.papermc.paper:paper-api:1.17-R0.1-SNAPSHOT'
+    implementation 'ch.jalu:configme:1.2.0'
 }
 
 processResources {
@@ -31,3 +31,17 @@ processResources {
     inputs.properties props
     expand props
 }
+
+shadowJar {
+    archiveClassifier.set('')
+}
+
+// Configure Auto Relocation
+import com.github.jengelman.gradle.plugins.shadow.tasks.ConfigureShadowRelocation
+
+task relocateShadowJar(type: ConfigureShadowRelocation) {
+    target = tasks.shadowJar
+    prefix = "me.ebonjaeger.ebonhomes"
+}
+
+tasks.shadowJar.dependsOn tasks.relocateShadowJar

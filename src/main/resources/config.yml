@@ -1,0 +1,9 @@
+homes:
+  # The maximum number of homes a player can have.
+  # A value of -1 means unlimited homes
+  # This can be overridden via permissions.
+  limit: 5
+  # List of permission nodes to set the number of homes a player can have.
+  # The format is: example.permission.node:5
+  # where 5 is the number of homes that permission gives.
+  limit-permissions: []

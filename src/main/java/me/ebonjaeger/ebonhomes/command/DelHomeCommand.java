@@ -42,7 +42,7 @@ public class DelHomeCommand implements CommandExecutor, TabCompleter {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> options = new ArrayList<>();
 
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             return options;
         }
 
@@ -50,7 +50,6 @@ public class DelHomeCommand implements CommandExecutor, TabCompleter {
             return options;
         }
 
-        Player player = (Player) sender;
         List<Home> homes = this.homesManager.getHomesForPlayer(player.getUniqueId());
         if (homes == null) {
             return options;
@@ -80,12 +79,11 @@ public class DelHomeCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage("This command can only be used by a player");
             return true;
         }
 
-        Player player = (Player) sender;
         if (args.length != 1) {
             player.sendMessage(ChatColor.RED + "Invalid args! Usage: " + ChatColor.WHITE + "/delhome name");
             return true;

@@ -54,6 +54,23 @@ public class HomesManager {
     }
 
     /**
+     * Get the current home count for a player.
+     *
+     * @param uuid The player's unique ID
+     * @return The number of current homes the player has
+     */
+    public int getHomeCount(@NotNull UUID uuid) {
+        int count = 0;
+
+        List<Home> homes = this.getHomesForPlayer(uuid);
+        if (homes != null) {
+            count = homes.size();
+        }
+
+        return count;
+    }
+
+    /**
      * Gets all homes for a player, if any are loaded.
      *
      * @param uuid The player's unique ID
