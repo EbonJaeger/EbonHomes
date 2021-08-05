@@ -22,17 +22,60 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class DelHomeCommand implements CommandExecutor {
+public class DelHomeCommand implements CommandExecutor, TabCompleter {
 
     private final HomesManager homesManager;
 
     public DelHomeCommand(HomesManager homesManager) {
         this.homesManager = homesManager;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        List<String> options = new ArrayList<>();
+
+        if (!(sender instanceof Player)) {
+            return options;
+        }
+
+        if (!command.getName().equals("delhome")) {
+            return options;
+        }
+
+        Player player = (Player) sender;
+        List<Home> homes = this.homesManager.getHomesForPlayer(player.getUniqueId());
+        if (homes == null) {
+            return options;
+        }
+
+        // If the player has started to give an argument
+        if (args.length == 1) {
+            // If the first argument is empty
+            if (args[0].equals("")) {
+                // Add all home names as suggestions
+                for (Home home : homes) {
+                    options.add(home.getName());
+                }
+            } else {
+                // First arg is not empty
+                for (Home home : homes) {
+                    // Check if what the player has typed so far matches the home's name
+                    if (args[0].regionMatches(true, 0, home.getName(), 0, args[0].length())) {
+                        options.add(home.getName());
+                    }
+                }
+            }
+        }
+
+        return options;
     }
 
     @Override
